@@ -32,10 +32,10 @@ targets:
     mode: development
     default: true
     variables:
-      catalog_name: dev
+      catalog_name: zl_demos
     workspace:
       # TODO: add dev workspace URL
-      host:
+      host: https://e2-demo-field-eng.cloud.databricks.com
 
   staging:
     variables:
@@ -45,7 +45,7 @@ targets:
 
   prod:
     variables:
-      catalog_name: zl_demos
+      catalog_name: users
     workspace:
       host: https://e2-demo-west.cloud.databricks.com
 
