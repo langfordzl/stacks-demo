@@ -60,20 +60,20 @@ dbutils.widgets.text(
 
 # Unity Catalog registered model name to use for the trained mode.
 dbutils.widgets.text(
-    "model_name", "dev.stacks_demo.stacks_cicd-model", label="Full (Three-Level) Model Name"
+    "model_name", "zl_demos.stacks_demo.stacks_cicd-model", label="Full (Three-Level) Model Name"
 )
 
 # Pickup features table name
 dbutils.widgets.text(
     "pickup_features_table",
-    "dev.stacks_demo.trip_pickup_features",
+    "zl_demos.stacks_demo.trip_pickup_features",
     label="Pickup Features Table",
 )
 
 # Dropoff features table name
 dbutils.widgets.text(
     "dropoff_features_table",
-    "dev.stacks_demo.trip_dropoff_features",
+    "zl_demos.stacks_demo.trip_dropoff_features",
     label="Dropoff Features Table",
 )
 
@@ -195,8 +195,15 @@ dropoff_feature_lookups = [
 
 # COMMAND ----------
 
-# DBTITLE 1, Create Training Dataset
+pickup_feature_lookups
 
+# COMMAND ----------
+
+taxi_data.display()
+
+# COMMAND ----------
+
+# DBTITLE 1, Create Training Dataset
 from databricks.feature_engineering import FeatureEngineeringClient
 
 # End any existing runs (in the case this notebook is being run for a second time)
@@ -266,6 +273,10 @@ model = lgb.train(param, train_lgb_dataset, num_rounds)
 
 # COMMAND ----------
 
+model.predict(X_test)
+
+# COMMAND ----------
+
 # DBTITLE 1, Log model and return output.
 # Log the trained model with MLflow and package it with feature lookup information.
 fe.log_model(
@@ -284,3 +295,7 @@ dbutils.jobs.taskValues.set("model_uri", model_uri)
 dbutils.jobs.taskValues.set("model_name", model_name)
 dbutils.jobs.taskValues.set("model_version", model_version)
 dbutils.notebook.exit(model_uri)
+
+# COMMAND ----------
+
+

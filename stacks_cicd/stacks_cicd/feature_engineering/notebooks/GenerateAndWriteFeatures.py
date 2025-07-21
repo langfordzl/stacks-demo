@@ -1,4 +1,9 @@
 # Databricks notebook source
+files = dbutils.fs.ls("/databricks-datasets/nyctaxi-with-zipcodes/subsampled")
+display(spark.createDataFrame(files))
+
+# COMMAND ----------
+
 ##################################################################################
 # Generate and Write Features Notebook
 #
@@ -45,13 +50,13 @@ dbutils.widgets.text(
 # Feature table to store the computed features.
 dbutils.widgets.text(
     "output_table_name",
-    "dev.stacks_demo.trip_pickup_features",
+    "zl_demos.stacks_demo.trip_dropoff_features",
     label="Output Feature Table Name",
 )
 
 # Feature transform module name.
 dbutils.widgets.text(
-    "features_transform_module", "pickup_features", label="Features transform file."
+    "features_transform_module", "dropoff_features", label="Features transform file."
 )
 # Primary Keys columns for the feature table;
 dbutils.widgets.text(
@@ -109,6 +114,10 @@ features_df = compute_features_fn(
     start_date=input_start_date,
     end_date=input_end_date,
 )
+
+# COMMAND ----------
+
+display(features_df)
 
 # COMMAND ----------
 
